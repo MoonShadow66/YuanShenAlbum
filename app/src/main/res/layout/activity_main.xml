@@ -13,12 +13,29 @@
         android:layout_height="match_parent" />
 
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navView"
+    <LinearLayout
+        android:layout_gravity="start"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_menu" />
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:background="@color/purple_200"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcy_main"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white" />
+
+
+    </LinearLayout>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

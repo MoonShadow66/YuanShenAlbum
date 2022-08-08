@@ -1,11 +1,15 @@
 package com.liang.yuanshenalbum.util
 
+import com.liang.yuanshenalbum.MyApplication
+import com.liang.yuanshenalbum.R
+import com.liang.yuanshenalbum.logic.dao.Role
+
 object ImageResource {
 
     private const val BASE_URL = "http://10.69.32.169/yuan"
 
     // 现有角色及图片数量
-    val roleMap = mapOf(
+    private val roleMap = mapOf(
         "group" to 5,
         "feixieer" to 31,
         "ganyu" to 22,
@@ -20,6 +24,30 @@ object ImageResource {
         "xiaogong" to 5,
         "ying" to 5,
     )
+
+
+    fun getRoleList(): List<Role> {
+
+        val resources = MyApplication.context.resources
+        val roleList =
+            listOf(
+                Role(resources.getString(R.string.group), "group"),
+                Role(resources.getString(R.string.feixieer), "feixieer"),
+                Role(resources.getString(R.string.ganyu), "ganyu"),
+                Role(resources.getString(R.string.hutao), "hutao"),
+                Role(resources.getString(R.string.keqing), "keqing"),
+                Role(resources.getString(R.string.linghua), "linghua"),
+                Role(resources.getString(R.string.mona), "mona"),
+                Role(resources.getString(R.string.nuoaier), "nuoaier"),
+                Role(resources.getString(R.string.shaonu), "shaonu"),
+                Role(resources.getString(R.string.shenzi), "shenzi"),
+                Role(resources.getString(R.string.xinhai), "xinhai"),
+                Role(resources.getString(R.string.xiaogong), "xiaogong"),
+                Role(resources.getString(R.string.ying), "ying"),
+            )
+
+        return roleList
+    }
 
     // 返回所有图片网络路径
     fun getAllImageUrl(): List<String> {
