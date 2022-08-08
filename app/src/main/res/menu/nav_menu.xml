@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all"
+            android:title="@string/all" />
+
+        <item
+            android:id="@+id/nav_group"
+            android:title="@string/group" />
+
+        <item
+            android:id="@+id/nav_ganyu"
+            android:title="@string/ganyu" />
+
+        <item
+            android:id="@+id/nav_feixieer"
+            android:title="@string/feixieer" />
+
+        <item
+            android:id="@+id/nav_linghua"
+            android:title="@string/linghua" />
+
+        <item
+            android:id="@+id/nav_xiaogong"
+            android:title="@string/xiaogong" />
+
+        <item
+            android:id="@+id/nav_shenzi"
+            android:title="@string/shenzi" />
+
+        <item
+            android:id="@+id/nav_ying"
+            android:title="@string/ying" />
+
+        <item
+            android:id="@+id/nav_mona"
+            android:title="@string/mona" />
+
+
+        <item
+            android:id="@+id/nav_xinhai"
+            android:title="@string/xinhai" />
+
+
+        <item
+            android:id="@+id/nav_hutao"
+            android:title="@string/hutao" />
+
+
+        <item
+            android:id="@+id/nav_nuoaier"
+            android:title="@string/nuoaier" />
+
+        <item
+            android:id="@+id/nav_keqing"
+            android:title="@string/keqing" />
+
+        <item
+            android:id="@+id/nav_shaonu"
+            android:title="@string/shaonu" />
+
+
+    </group>
+
+
+</menu>

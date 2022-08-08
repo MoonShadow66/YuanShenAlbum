@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">原神相册</string>
+    <string name="all">全部</string>
+    <string name="group">合集</string>
+    <string name="ganyu">甘雨</string>
+    <string name="feixieer">菲谢尔</string>
+    <string name="linghua">神里绫华</string>
+    <string name="xiaogong">宵宫</string>
+    <string name="shenzi">八重神子</string>
+    <string name="ying">影</string>
+    <string name="mona">莫娜</string>
+    <string name="xinhai">珊瑚宫心海</string>
+    <string name="hutao">胡桃</string>
+    <string name="nuoaier">诺艾尔</string>
+    <string name="keqing">刻晴</string>
+    <string name="shaonu">少女</string>
+
 </resources>
