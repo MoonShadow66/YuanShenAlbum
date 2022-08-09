@@ -28,7 +28,15 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
         setStatusBar()
         initViewPager()
         initRcy()
+        initEvent()
     }
+
+    private fun initEvent() {
+        viewPager.isLongClickable = true
+        viewPager.setOnTouchListener(MyGestureListener(this,drawerLayout))
+    }
+
+
 
     private fun initRcy() {
         viewModel.roleList.addAll(ImageResource.getRoleList())
