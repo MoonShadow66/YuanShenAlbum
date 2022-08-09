@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.liang.yuanshenalbum.R
 import com.liang.yuanshenalbum.logic.dao.Role
 import com.liang.yuanshenalbum.util.ImageResource
+import com.liang.yuanshenalbum.util.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
             val imageView = ImageView(this)
             imageView.scaleType = ImageView.ScaleType.CENTER_CROP
             viewModel.viewList.add(imageView)
+            LogUtil.d("MainActivity",url)
         }
         adapter = MyAdapter(viewModel.strList, viewModel.viewList)
         viewPager.adapter = adapter
@@ -81,6 +83,12 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
     override fun onClick(role: Role) {
         changeData(role.type)
         drawerLayout.closeDrawers()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 清除硬盘缓存
+//        Glide.get(this).clearDiskCache();
     }
 
 }

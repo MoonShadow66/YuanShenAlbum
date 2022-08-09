@@ -10,50 +10,63 @@ object ImageResource {
 
     // 现有角色及图片数量
     private val roleMap = mapOf(
-        "group" to 5,
+        "group" to 15,
+        "other" to 6,
+        "babala" to 1,
         "feixieer" to 31,
-        "ganyu" to 22,
-        "hutao" to 1,
-        "keqing" to 1,
-        "linghua" to 22,
-        "mona" to 4,
-        "nuoaier" to 1,
-        "shaonu" to 1,
-        "shenzi" to 8,
-        "xinhai" to 2,
+        "ganyu" to 31,
+        "hutao" to 21,
+        "keqing" to 6,
+        "linghua" to 24,
+        "mona" to 8,
+        "ningguang" to 1,
+        "nuoaier" to 2,
+        "shaonu" to 3,
+        "shenhe" to 3,
+        "shenzi" to 11,
+        "xiangling" to 1,
         "xiaogong" to 5,
-        "ying" to 5,
+        "xinhai" to 3,
+        "ying" to 12,
+        "youla" to 8,
+        "yunjin" to 1,
     )
 
 
     fun getRoleList(): List<Role> {
 
         val resources = MyApplication.context.resources
-        val roleList =
-            listOf(
-                Role(resources.getString(R.string.group), "group"),
-                Role(resources.getString(R.string.feixieer), "feixieer"),
-                Role(resources.getString(R.string.ganyu), "ganyu"),
-                Role(resources.getString(R.string.hutao), "hutao"),
-                Role(resources.getString(R.string.keqing), "keqing"),
-                Role(resources.getString(R.string.linghua), "linghua"),
-                Role(resources.getString(R.string.mona), "mona"),
-                Role(resources.getString(R.string.nuoaier), "nuoaier"),
-                Role(resources.getString(R.string.shaonu), "shaonu"),
-                Role(resources.getString(R.string.shenzi), "shenzi"),
-                Role(resources.getString(R.string.xinhai), "xinhai"),
-                Role(resources.getString(R.string.xiaogong), "xiaogong"),
-                Role(resources.getString(R.string.ying), "ying"),
-            )
 
-        return roleList
+        return listOf(
+            Role(resources.getString(R.string.group), "group"),
+            Role(resources.getString(R.string.other), "other"),
+            Role(resources.getString(R.string.babala), "babala"),
+            Role(resources.getString(R.string.feixieer), "feixieer"),
+            Role(resources.getString(R.string.ganyu), "ganyu"),
+            Role(resources.getString(R.string.hutao), "hutao"),
+            Role(resources.getString(R.string.keqing), "keqing"),
+            Role(resources.getString(R.string.linghua), "linghua"),
+            Role(resources.getString(R.string.mona), "mona"),
+            Role(resources.getString(R.string.ningguang), "ningguang"),
+            Role(resources.getString(R.string.nuoaier), "nuoaier"),
+            Role(resources.getString(R.string.shaonu), "shaonu"),
+            Role(resources.getString(R.string.shenhe), "shenhe"),
+            Role(resources.getString(R.string.shenzi), "shenzi"),
+            Role(resources.getString(R.string.xiangling), "xiangling"),
+            Role(resources.getString(R.string.xiaogong), "xiaogong"),
+            Role(resources.getString(R.string.xinhai), "xinhai"),
+            Role(resources.getString(R.string.ying), "ying"),
+            Role(resources.getString(R.string.youla), "youla"),
+            Role(resources.getString(R.string.yunjin), "yunjin"),
+            )
     }
 
     // 返回所有图片网络路径
     fun getAllImageUrl(): List<String> {
         val list = ArrayList<String>()
         for (i in 1..109) {
-            list.add("$BASE_URL/all/img${i}.jpg")
+            val random = (1..109).random()
+            list.add("$BASE_URL/all/img${random}.jpg")
         }
         return list
     }
