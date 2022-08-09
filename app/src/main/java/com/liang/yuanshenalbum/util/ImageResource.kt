@@ -2,7 +2,7 @@ package com.liang.yuanshenalbum.util
 
 import com.liang.yuanshenalbum.MyApplication
 import com.liang.yuanshenalbum.R
-import com.liang.yuanshenalbum.logic.dao.Role
+import com.liang.yuanshenalbum.logic.model.Role
 
 object ImageResource {
 
@@ -23,7 +23,7 @@ object ImageResource {
         "nuoaier" to 2,
         "shaonu" to 3,
         "shenhe" to 3,
-        "shenzi" to 11,
+        "shenzi" to 9,
         "xiangling" to 1,
         "xiaogong" to 5,
         "xinhai" to 3,

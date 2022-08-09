@@ -7,8 +7,10 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.ViewPager
 import com.liang.yuanshenalbum.R
-import com.liang.yuanshenalbum.logic.dao.Role
+import com.liang.yuanshenalbum.logic.model.Role
+import com.liang.yuanshenalbum.showToast
 import com.liang.yuanshenalbum.util.ImageResource
 import com.liang.yuanshenalbum.util.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,6 +51,29 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
         }
         adapter = MyAdapter(viewModel.strList, viewModel.viewList)
         viewPager.adapter = adapter
+
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                if (position == viewModel.strList.size - 1) {
+                    "已经是当时分类的最后一张图片了哦，没有下一张了。".showToast()
+                }
+                LogUtil.d("MainActivity","viewModel.strList.size : ${viewModel.strList.size-1}")
+                LogUtil.d("MainActivity","onPageSelected : ${position}")
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+        })
     }
 
 
@@ -87,8 +112,12 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        // 清除内存缓存
+//        Glide.get(this).clearMemory();
         // 清除硬盘缓存
 //        Glide.get(this).clearDiskCache();
+
+        LogUtil.d("MainActivity","onDestroy")
     }
 
 }

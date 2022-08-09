@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.liang.yuanshenalbum.R
-import com.liang.yuanshenalbum.logic.dao.Role
+import com.liang.yuanshenalbum.logic.model.Role
 
 class RcyAdapter(private val list: List<Role>) : RecyclerView.Adapter<RcyAdapter.ViewHolder>() {
 

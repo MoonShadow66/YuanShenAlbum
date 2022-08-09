@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.liang.yuanshenalbum.util.LogUtil
 
 class MyAdapter(private val strList: List<String>, private val viewList: List<ImageView>) :
     PagerAdapter() {
@@ -27,6 +28,7 @@ class MyAdapter(private val strList: List<String>, private val viewList: List<Im
      */
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         Glide.with(container.context).load(strList[position]).into(viewList[position])
+        LogUtil.d("MyAdapter",strList[position])
         container.addView(viewList[position])
         return viewList[position]
     }

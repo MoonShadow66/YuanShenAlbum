@@ -2,9 +2,7 @@ package com.liang.yuanshenalbum.ui.main
 
 import android.widget.ImageView
 import androidx.lifecycle.ViewModel
-import com.liang.yuanshenalbum.MyApplication
-import com.liang.yuanshenalbum.R
-import com.liang.yuanshenalbum.logic.dao.Role
+import com.liang.yuanshenalbum.logic.model.Role
 
 class MainViewModel : ViewModel() {
 
