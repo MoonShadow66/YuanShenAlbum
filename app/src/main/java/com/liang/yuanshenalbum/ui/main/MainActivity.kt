@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.liang.yuanshenalbum.R
 import com.liang.yuanshenalbum.logic.model.Role
@@ -33,19 +33,20 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
 
     private fun initEvent() {
         viewPager.isLongClickable = true
+        // 监听滑动事件，右滑时打开drawerLayout
         viewPager.setOnTouchListener(MyGestureListener(this,drawerLayout))
     }
 
 
 
+    // 分类列表
     private fun initRcy() {
         viewModel.roleList.addAll(ImageResource.getRoleList())
-        val layoutManager = LinearLayoutManager(this)
+        val layoutManager = GridLayoutManager(this,3)
         rcy_main.layoutManager = layoutManager
-        val rcyAdapter = RcyAdapter(viewModel.roleList)
+        val rcyAdapter = RcyAdapter(this,viewModel.roleList)
         rcyAdapter.setOnRcyItemClickListener(this)
         rcy_main.adapter = rcyAdapter
-
     }
 
     private fun initViewPager() {

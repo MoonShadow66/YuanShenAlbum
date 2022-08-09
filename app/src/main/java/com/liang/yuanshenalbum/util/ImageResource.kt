@@ -6,7 +6,7 @@ import com.liang.yuanshenalbum.logic.model.Role
 
 object ImageResource {
 
-    private const val BASE_URL = "http://10.69.32.169/yuan"
+    const val BASE_URL = "http://10.69.32.169/yuan"
 
     // 现有角色及图片数量
     private val roleMap = mapOf(
@@ -58,7 +58,7 @@ object ImageResource {
             Role(resources.getString(R.string.ying), "ying"),
             Role(resources.getString(R.string.youla), "youla"),
             Role(resources.getString(R.string.yunjin), "yunjin"),
-            )
+        )
     }
 
     // 返回所有图片网络路径

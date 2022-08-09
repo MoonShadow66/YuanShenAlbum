@@ -9,10 +9,10 @@ open class GestureListener(context: Context) : GestureDetector.SimpleOnGestureLi
     View.OnTouchListener {
 
     /** 左右滑动的最短距离  */
-    private var distance = 50
+    private var distance = 100
 
     /** 左右滑动的最大速度  */
-    private val velocity = 150
+    private val velocity = 200
 
     private var gestureDetector: GestureDetector? = null
 
