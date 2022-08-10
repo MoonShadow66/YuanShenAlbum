@@ -17,8 +17,7 @@
             android:id="@+id/iv_rcy_img"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/linghua1" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:layout_marginTop="3dp"
