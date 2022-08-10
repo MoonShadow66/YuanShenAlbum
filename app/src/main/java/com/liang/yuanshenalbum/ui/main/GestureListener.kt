@@ -70,7 +70,6 @@ open class GestureListener(context: Context) : GestureDetector.SimpleOnGestureLi
                 right();
             }
         }
-
         return false;
     }
 

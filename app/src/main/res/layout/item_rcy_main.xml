@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     android:clickable="true"
     android:focusable="true"
-    android:layout_margin="10dp"
     app:cardCornerRadius="5dp">
 
     <LinearLayout
@@ -20,14 +21,14 @@
             android:scaleType="centerCrop" />
 
         <TextView
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
             android:id="@+id/tv_rcy_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:text="@string/ganyu"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 

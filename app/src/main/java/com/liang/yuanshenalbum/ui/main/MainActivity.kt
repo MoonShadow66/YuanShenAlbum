@@ -108,12 +108,25 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
     }
 
     // 分类列表的点击事件
-    override fun onClick(role: Role) {
+    override fun onClick(role: Role, position: Int) {
+        // 根据点击的分类请求新的图片信息
         viewModel.getImage(role.type)
+        // 更改选择分类的状态
+        resetItemCheckStatus()
+        viewModel.roleList[position].isChecked = true
+        rcyAdapter.notifyDataSetChanged()
         // true 表示平滑的滚动到位置0，false表示立即过渡到位置0
         viewPager.setCurrentItem(0, false)
         drawerLayout.closeDrawers()
     }
+
+    fun resetItemCheckStatus() {
+        val length = viewModel.roleList.size - 1
+        for (i in 0..length) {
+            viewModel.roleList[i].isChecked = false
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

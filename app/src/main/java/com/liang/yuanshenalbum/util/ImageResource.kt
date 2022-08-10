@@ -36,7 +36,7 @@ object ImageResource {
     // 获取所有分类信息
     fun getRoleList(): List<Role> {
         val resources = MyApplication.context.resources
-        return listOf(
+        val list = listOf(
             Role(resources.getString(R.string.all), "all"),
             Role(resources.getString(R.string.group), "group"),
             Role(resources.getString(R.string.other), "other"),
@@ -59,6 +59,11 @@ object ImageResource {
             Role(resources.getString(R.string.youla), "youla"),
             Role(resources.getString(R.string.yunjin), "yunjin"),
         )
+
+        // 默认选中第一个（全部）
+        list[0].isChecked = true
+
+        return list
     }
 
     // 根据分类得到分类图片
