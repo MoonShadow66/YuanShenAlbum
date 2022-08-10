@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.liang.yuanshenalbum.R
 
 class MyAdapter(private val strList: List<String>) :
     PagerAdapter() {
@@ -28,7 +29,7 @@ class MyAdapter(private val strList: List<String>) :
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val imageView = ImageView(container.context)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        Glide.with(container.context).load(strList[position]).into(imageView)
+        Glide.with(container.context).load(strList[position]).error(R.drawable.error).into(imageView)
         container.addView(imageView)
         return imageView
     }

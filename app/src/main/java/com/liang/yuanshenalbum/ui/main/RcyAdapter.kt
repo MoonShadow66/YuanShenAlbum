@@ -44,7 +44,7 @@ class RcyAdapter(val context: Context, private val list: List<Role>) :
     override fun onBindViewHolder(holder: RcyAdapter.ViewHolder, position: Int) {
         val type = list[position].type
         val url = "${ImageResource.BASE_URL}/${type}/${type}1.jpg"
-        Glide.with(context).load(url).into(holder.img)
+        Glide.with(context).load(url).error(R.drawable.error).into(holder.img)
         // 当前分类的图片数量
         //   val imgLength = ImageResource.roleMap[type]
         holder.text.text = "${list[position].name}"
