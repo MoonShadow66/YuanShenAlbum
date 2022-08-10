@@ -33,7 +33,7 @@ object ImageResource {
         "yunjin" to 1,
     )
 
-
+    // 获取所有分类信息
     fun getRoleList(): List<Role> {
         val resources = MyApplication.context.resources
         return listOf(
@@ -61,24 +61,19 @@ object ImageResource {
         )
     }
 
-    // 返回所有图片网络路径
-    fun getAllImageUrl(): List<String> {
-        val list = ArrayList<String>()
-        for (i in 1..109) {
-            val random = (1..109).random()
-            list.add("$BASE_URL/all/img${random}.jpg")
-        }
-        return list
-    }
-
     // 根据分类得到分类图片
-    fun getImageUrlByName(name: String): List<String> {
+    fun getImageUrlByName(name: String, isRandom: Boolean = false): List<String> {
         // 根据分类名称得到分类数量
         val length = roleMap[name] ?: 0
-
         val list = ArrayList<String>()
+
         for (i in 1..length) {
-            list.add("$BASE_URL/${name}/${name}${i}.jpg")
+            if (isRandom) {
+                val random = (1..length).random()
+                list.add("$BASE_URL/${name}/${name}${random}.jpg")
+            } else {
+                list.add("$BASE_URL/${name}/${name}${i}.jpg")
+            }
         }
         return list
     }

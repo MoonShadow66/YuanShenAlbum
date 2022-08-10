@@ -5,9 +5,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
-import com.liang.yuanshenalbum.util.LogUtil
 
-class MyAdapter(private val strList: List<String>, private val viewList: List<ImageView>) :
+class MyAdapter(private val strList: List<String>) :
     PagerAdapter() {
 
     /**
@@ -27,10 +26,11 @@ class MyAdapter(private val strList: List<String>, private val viewList: List<Im
      * 我们将要显示的控件(viewLists.get(position)从集合中获取View)加入到ViewGroup中，然后作为返回值返回即可
      */
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        Glide.with(container.context).load(strList[position]).into(viewList[position])
-        LogUtil.d("MyAdapter",strList[position])
-        container.addView(viewList[position])
-        return viewList[position]
+        val imageView = ImageView(container.context)
+        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+        Glide.with(container.context).load(strList[position]).into(imageView)
+        container.addView(imageView)
+        return imageView
     }
 
     /**

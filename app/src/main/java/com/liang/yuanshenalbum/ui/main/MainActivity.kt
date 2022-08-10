@@ -3,7 +3,6 @@ package com.liang.yuanshenalbum.ui.main
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,7 +20,6 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
     private val viewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
     private lateinit var adapter: MyAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,32 +32,26 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
     private fun initEvent() {
         viewPager.isLongClickable = true
         // 监听滑动事件，右滑时打开drawerLayout
-        viewPager.setOnTouchListener(MyGestureListener(this,drawerLayout))
+        viewPager.setOnTouchListener(MyGestureListener(this, drawerLayout))
     }
 
     // 分类列表
     private fun initRcy() {
         viewModel.roleList.addAll(ImageResource.getRoleList())
-        val layoutManager = GridLayoutManager(this,3)
+        val layoutManager = GridLayoutManager(this, 3)
         rcy_main.layoutManager = layoutManager
-        val rcyAdapter = RcyAdapter(this,viewModel.roleList)
+        val rcyAdapter = RcyAdapter(this, viewModel.roleList)
         rcyAdapter.setOnRcyItemClickListener(this)
         rcy_main.adapter = rcyAdapter
     }
 
     private fun initViewPager() {
         // 根据图片网络地址的数量动态创建 imageView
-        viewModel.strList.addAll(ImageResource.getImageUrlByName("all"))
-        for (url in viewModel.strList) {
-            val imageView = ImageView(this)
-            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-            viewModel.viewList.add(imageView)
-            LogUtil.d("MainActivity",url)
-        }
-        adapter = MyAdapter(viewModel.strList, viewModel.viewList)
+        viewModel.strList.addAll(ImageResource.getImageUrlByName("all", true))
+        adapter = MyAdapter(viewModel.strList)
         viewPager.adapter = adapter
 
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -72,8 +64,8 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
                 if (position == viewModel.strList.size - 1) {
                     "已经是当时分类的最后一张图片了哦，没有下一张了。".showToast()
                 }
-                LogUtil.d("MainActivity","viewModel.strList.size : ${viewModel.strList.size-1}")
-                LogUtil.d("MainActivity","onPageSelected : ${position}")
+                LogUtil.d("MainActivity", "viewModel.strList.size : ${viewModel.strList.size - 1}")
+                LogUtil.d("MainActivity", "onPageSelected : ${position}")
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -81,6 +73,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
             }
 
         })
+
     }
 
 
@@ -88,19 +81,10 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
     private fun changeData(name: String) {
         // 清空之前的数据
         viewModel.strList.clear()
-        viewModel.viewList.clear()
-
         viewModel.strList.addAll(ImageResource.getImageUrlByName(name))
-        for (url in viewModel.strList) {
-            val imageView = ImageView(this)
-            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-            viewModel.viewList.add(imageView)
-        }
-
         adapter.notifyDataSetChanged()
         // true 表示平滑的滚动到位置0，false表示立即过渡到位置0
         viewPager.setCurrentItem(0, false)
-
     }
 
     private fun setStatusBar() {
@@ -112,6 +96,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
         window.statusBarColor = Color.TRANSPARENT
     }
 
+    // 分类列表的点击事件
     override fun onClick(role: Role) {
         changeData(role.type)
         drawerLayout.closeDrawers()
@@ -123,8 +108,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
 //        Glide.get(this).clearMemory();
         // 清除硬盘缓存
 //        Glide.get(this).clearDiskCache();
-
-        LogUtil.d("MainActivity","onDestroy")
+        LogUtil.d("MainActivity", "onDestroy")
     }
 
 }
