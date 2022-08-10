@@ -37,8 +37,6 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
         viewPager.setOnTouchListener(MyGestureListener(this,drawerLayout))
     }
 
-
-
     // 分类列表
     private fun initRcy() {
         viewModel.roleList.addAll(ImageResource.getRoleList())
@@ -51,7 +49,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
 
     private fun initViewPager() {
         // 根据图片网络地址的数量动态创建 imageView
-        viewModel.strList.addAll(ImageResource.getAllImageUrl())
+        viewModel.strList.addAll(ImageResource.getImageUrlByName("all"))
         for (url in viewModel.strList) {
             val imageView = ImageView(this)
             imageView.scaleType = ImageView.ScaleType.CENTER_CROP

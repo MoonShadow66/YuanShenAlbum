@@ -42,11 +42,13 @@ class RcyAdapter(val context: Context, private val list: List<Role>) :
     }
 
     override fun onBindViewHolder(holder: RcyAdapter.ViewHolder, position: Int) {
-        holder.text.text = list[position].name
+
         val type = list[position].type
         val url = "${ImageResource.BASE_URL}/${type}/${type}1.jpg"
         Glide.with(context).load(url).into(holder.img)
-        LogUtil.d("RcyAdapter",url)
+        holder.text.text = "${list[position].name} (${ImageResource.roleMap[type]})"
+        LogUtil.d("RcyAdapter", url)
+        LogUtil.d("RcyAdapter num", "${ImageResource.roleMap[type]}")
     }
 
     override fun getItemCount() = list.size

@@ -9,14 +9,15 @@ object ImageResource {
     const val BASE_URL = "http://10.69.32.169/yuan"
 
     // 现有角色及图片数量
-    private val roleMap = mapOf(
+    val roleMap = mapOf(
+        "all" to 195,
         "group" to 15,
         "other" to 6,
         "babala" to 1,
         "feixieer" to 31,
         "ganyu" to 31,
         "hutao" to 21,
-        "keqing" to 6,
+        "keqing" to 7,
         "linghua" to 24,
         "mona" to 8,
         "ningguang" to 1,
@@ -27,17 +28,16 @@ object ImageResource {
         "xiangling" to 1,
         "xiaogong" to 5,
         "xinhai" to 3,
-        "ying" to 12,
+        "ying" to 11,
         "youla" to 8,
         "yunjin" to 1,
     )
 
 
     fun getRoleList(): List<Role> {
-
         val resources = MyApplication.context.resources
-
         return listOf(
+            Role(resources.getString(R.string.all), "all"),
             Role(resources.getString(R.string.group), "group"),
             Role(resources.getString(R.string.other), "other"),
             Role(resources.getString(R.string.babala), "babala"),
