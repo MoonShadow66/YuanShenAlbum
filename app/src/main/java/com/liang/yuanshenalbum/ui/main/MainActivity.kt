@@ -1,10 +1,14 @@
 package com.liang.yuanshenalbum.ui.main
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Point
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.customview.widget.ViewDragHelper
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.ViewPager
@@ -13,6 +17,7 @@ import com.liang.yuanshenalbum.logic.model.Role
 import com.liang.yuanshenalbum.showToast
 import com.liang.yuanshenalbum.util.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.reflect.Field
 
 
 class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
@@ -53,9 +58,10 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
     }
 
     private fun initEvent() {
-        viewPager.isLongClickable = true
-        // 监听滑动事件，右滑时打开drawerLayout
-        viewPager.setOnTouchListener(MyGestureListener(this, drawerLayout))
+//        viewPager.isLongClickable = true
+        // 监听滑动事件，右滑时打开drawerLayout，这种方式是自己写手势判断是否滑动，体验非常不好
+//        viewPager.setOnTouchListener(MyGestureListener(this, drawerLayout))
+        setDrawerLeftEdgeSize(this, drawerLayout, 1F)
     }
 
     // 分类列表
@@ -89,7 +95,6 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
                 LogUtil.d("MainActivity", "viewModel.strList.size : ${viewModel.strList.size - 1}")
                 LogUtil.d("MainActivity", "onPageSelected : ${position}")
             }
-
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -153,6 +158,38 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
         intent.addCategory(Intent.CATEGORY_HOME)
         startActivity(intent)
 
+    }
+
+
+    // 设置drawerlayout全屏滑动
+    private fun setDrawerLeftEdgeSize(
+        activity: Activity?,
+        drawerLayout: DrawerLayout?,
+        displayWidthPercentage: Float
+    ) {
+        if (activity == null || drawerLayout == null) return
+        try {
+            // 找到 ViewDragHelper 并设置 Accessible 为true
+            val leftDraggerField: Field =
+                drawerLayout.javaClass.getDeclaredField("mRightDragger") //Left
+            leftDraggerField.setAccessible(true)
+            val leftDragger = leftDraggerField.get(drawerLayout) as ViewDragHelper
+
+            // 找到 edgeSizeField 并设置 Accessible 为true
+            val edgeSizeField: Field = leftDragger.javaClass.getDeclaredField("mEdgeSize")
+            edgeSizeField.setAccessible(true)
+            val edgeSize: Int = edgeSizeField.getInt(leftDragger)
+
+            // 设置新的边缘大小
+            val displaySize = Point()
+            activity.windowManager.defaultDisplay.getSize(displaySize)
+            edgeSizeField.setInt(
+                leftDragger, Math.max(edgeSize, (displaySize.x * displayWidthPercentage).toInt())
+            )
+        } catch (e: NoSuchFieldException) {
+        } catch (e: IllegalArgumentException) {
+        } catch (e: IllegalAccessException) {
+        }
     }
 
 }

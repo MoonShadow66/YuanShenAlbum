@@ -30,5 +30,4 @@ class MainViewModel : ViewModel() {
         getRoleLiveData.value = getRoleLiveData.value
     }
 
-
 }
