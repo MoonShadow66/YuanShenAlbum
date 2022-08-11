@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
         try {
             // 找到 ViewDragHelper 并设置 Accessible 为true
             val leftDraggerField: Field =
-                drawerLayout.javaClass.getDeclaredField("mRightDragger") //Left
+                drawerLayout.javaClass.getDeclaredField("mLeftDragger") //Right
             leftDraggerField.setAccessible(true)
             val leftDragger = leftDraggerField.get(drawerLayout) as ViewDragHelper
 
