@@ -8,7 +8,10 @@ import androidx.viewpager.widget.ViewPager
 
 class VerticalViewPager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs) {
 
+    private var helper: ViewPagerHelper? = null
+
     init {
+        helper = ViewPagerHelper(this)
         //设置viewpage的切换动画,这里设置才能真正实现垂直滑动的viewpager
         setPageTransformer(true, VerticalPageTransformer())
     }

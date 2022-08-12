@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
     private lateinit var adapter: MyAdapter
     private lateinit var rcyAdapter: RcyAdapter
     private val handler = Handler()
+    private val delayMills = 3000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +42,12 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.rb_open -> {
-                    handler.postDelayed(autoScrollTask, 3000)
+                    handler.postDelayed(autoScrollTask, delayMills) // 开启自动滑动，间隔3秒
+                    drawerLayout.closeDrawers()
                 }
                 R.id.rb_close -> {
-                    LogUtil.d("MainActivity", "rb_close")
-                    if (handler != null) {
-                        handler.removeCallbacks(autoScrollTask)
-                    }
+                    closeAutoScrollTask()
+                    drawerLayout.closeDrawers()
                 }
             }
         }
@@ -122,6 +122,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
 
     }
 
+    // 设置状态栏
     private fun setStatusBar() {
         // 沉浸式状态栏
         val decorView = window.decorView
@@ -144,6 +145,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
         drawerLayout.closeDrawers()
     }
 
+    // 更改选择分类的状态
     fun resetItemCheckStatus() {
         val length = viewModel.roleList.size - 1
         for (i in 0..length) {
@@ -179,19 +181,26 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
     }
 
 
+    // 自动滑动的线程，这个线程是在主线程中执行的，因为这个线程是根据handler来的，而这个handler我是在主线程中创建的
     val autoScrollTask = object : Runnable {
         override fun run() {
             var currentItem = viewPager.currentItem
             currentItem = (currentItem + 1) % viewModel.strList.size
-            LogUtil.d("MainActivity", "${viewModel.strList.size}")
             if (currentItem == 0) {
                 viewPager.setCurrentItem(currentItem, false)
             } else {
                 viewPager.setCurrentItem(currentItem, true)
             }
-            handler.postDelayed(this, 3000)
+            handler.postDelayed(this, delayMills)
         }
 
+    }
+
+    // 关闭自动滑动
+    fun closeAutoScrollTask() {
+        if (handler != null) {
+            handler.removeCallbacks(autoScrollTask)
+        }
     }
 
 
