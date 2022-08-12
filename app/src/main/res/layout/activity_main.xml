@@ -13,6 +13,7 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -32,6 +33,46 @@
                 android:textColor="@color/white"
                 android:textSize="25sp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="自动滑动"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_open"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="20dp"
+                    android:gravity="center"
+                    android:text="开启"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center"
+                    android:text="关闭"
+                    android:textSize="18sp" />
+            </RadioGroup>
         </LinearLayout>
 
 

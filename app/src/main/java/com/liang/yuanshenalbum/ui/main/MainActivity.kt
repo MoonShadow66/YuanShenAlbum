@@ -1,23 +1,20 @@
 package com.liang.yuanshenalbum.ui.main
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Point
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.customview.widget.ViewDragHelper
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.liang.yuanshenalbum.R
 import com.liang.yuanshenalbum.logic.model.Role
 import com.liang.yuanshenalbum.showToast
+import com.liang.yuanshenalbum.util.DrawerLayoutUtil
 import com.liang.yuanshenalbum.util.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.reflect.Field
 
 
 class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
@@ -25,15 +22,35 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
     private val viewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
     private lateinit var adapter: MyAdapter
     private lateinit var rcyAdapter: RcyAdapter
+    private val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initView()
+        initObserver()
+        initEvent()
+    }
+
+    private fun initView() {
         setStatusBar()
         initViewPager()
         initRcy()
-        initObserver()
-        initEvent()
+
+        radioGroup.check(R.id.rb_close)
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.rb_open -> {
+                    handler.postDelayed(autoScrollTask, 3000)
+                }
+                R.id.rb_close -> {
+                    LogUtil.d("MainActivity", "rb_close")
+                    if (handler != null) {
+                        handler.removeCallbacks(autoScrollTask)
+                    }
+                }
+            }
+        }
     }
 
     // 观察者，监听数据变化动态改变view
@@ -61,7 +78,8 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
 //        viewPager.isLongClickable = true
         // 监听滑动事件，右滑时打开drawerLayout，这种方式是自己写手势判断是否滑动，体验非常不好
 //        viewPager.setOnTouchListener(MyGestureListener(this, drawerLayout))
-        setDrawerLeftEdgeSize(this, drawerLayout, 1F)
+        // 设置drawerlayout全屏滑动
+        DrawerLayoutUtil.setDrawerLeftEdgeSize(this, drawerLayout, 1F)
     }
 
     // 分类列表
@@ -95,6 +113,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
                 LogUtil.d("MainActivity", "viewModel.strList.size : ${viewModel.strList.size - 1}")
                 LogUtil.d("MainActivity", "onPageSelected : ${position}")
             }
+
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -157,39 +176,23 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
          */intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent.addCategory(Intent.CATEGORY_HOME)
         startActivity(intent)
-
     }
 
 
-    // 设置drawerlayout全屏滑动
-    private fun setDrawerLeftEdgeSize(
-        activity: Activity?,
-        drawerLayout: DrawerLayout?,
-        displayWidthPercentage: Float
-    ) {
-        if (activity == null || drawerLayout == null) return
-        try {
-            // 找到 ViewDragHelper 并设置 Accessible 为true
-            val leftDraggerField: Field =
-                drawerLayout.javaClass.getDeclaredField("mLeftDragger") //Right
-            leftDraggerField.setAccessible(true)
-            val leftDragger = leftDraggerField.get(drawerLayout) as ViewDragHelper
-
-            // 找到 edgeSizeField 并设置 Accessible 为true
-            val edgeSizeField: Field = leftDragger.javaClass.getDeclaredField("mEdgeSize")
-            edgeSizeField.setAccessible(true)
-            val edgeSize: Int = edgeSizeField.getInt(leftDragger)
-
-            // 设置新的边缘大小
-            val displaySize = Point()
-            activity.windowManager.defaultDisplay.getSize(displaySize)
-            edgeSizeField.setInt(
-                leftDragger, Math.max(edgeSize, (displaySize.x * displayWidthPercentage).toInt())
-            )
-        } catch (e: NoSuchFieldException) {
-        } catch (e: IllegalArgumentException) {
-        } catch (e: IllegalAccessException) {
+    val autoScrollTask = object : Runnable {
+        override fun run() {
+            var currentItem = viewPager.currentItem
+            currentItem = (currentItem + 1) % viewModel.strList.size
+            LogUtil.d("MainActivity", "${viewModel.strList.size}")
+            if (currentItem == 0) {
+                viewPager.setCurrentItem(currentItem, false)
+            } else {
+                viewPager.setCurrentItem(currentItem, true)
+            }
+            handler.postDelayed(this, 3000)
         }
+
     }
+
 
 }
