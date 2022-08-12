@@ -1,4 +1,4 @@
-package com.liang.yuanshenalbum.ui.main
+package com.liang.yuanshenalbum.other
 
 import android.content.Context
 import android.view.GestureDetector

@@ -5,10 +5,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.viewpager.widget.ViewPager
 import com.liang.yuanshenalbum.R
 import com.liang.yuanshenalbum.logic.model.Role
 import com.liang.yuanshenalbum.showToast
@@ -17,13 +18,15 @@ import com.liang.yuanshenalbum.util.LogUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
+class MainActivity : AppCompatActivity(), RcyAdapter.OnRcyItemClickListener {
 
     private val viewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
     private lateinit var adapter: MyAdapter
     private lateinit var rcyAdapter: RcyAdapter
     private val handler = Handler()
     private val delayMills = 3000L
+    private var isOpen = false
+    private var isRadioClick = false // 如果点击了自动滑动的单选按钮就是true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +47,49 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
                 R.id.rb_open -> {
                     handler.postDelayed(autoScrollTask, delayMills) // 开启自动滑动，间隔3秒
                     drawerLayout.closeDrawers()
+                    isRadioClick = true
+                    isOpen = true
                 }
                 R.id.rb_close -> {
                     closeAutoScrollTask()
                     drawerLayout.closeDrawers()
+                    isRadioClick = true
+                    isOpen = false
                 }
             }
         }
+
+        drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+
+            }
+
+            // 侧拉菜单打开 监听事件
+            override fun onDrawerOpened(drawerView: View) {
+                closeAutoScrollTask()
+            }
+
+            // 侧拉菜单关闭 监听事件
+            override fun onDrawerClosed(drawerView: View) {
+                val rab: RadioButton = findViewById(radioGroup.checkedRadioButtonId)
+
+                // 如果点击了自动滑动单选按钮
+                if (isRadioClick) {
+                    isRadioClick = false
+                    return
+                } else {
+                    if (isOpen) {
+                        handler.postDelayed(autoScrollTask, delayMills) // 开启自动滑动
+                    }
+                }
+
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+
+            }
+
+        })
     }
 
     // 观察者，监听数据变化动态改变view
@@ -96,30 +135,6 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
         viewModel.getImage("all") // 通知viewModel去调用livedata
         adapter = MyAdapter(viewModel.strList)
         viewPager.adapter = adapter
-
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-
-            }
-
-            override fun onPageSelected(position: Int) {
-                if (position == viewModel.strList.size - 1) {
-                    "已经是当时分类的最后一张图片了哦，没有下一张了。".showToast()
-                }
-                LogUtil.d("MainActivity", "viewModel.strList.size : ${viewModel.strList.size - 1}")
-                LogUtil.d("MainActivity", "onPageSelected : ${position}")
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-
-        })
-
     }
 
     // 设置状态栏
@@ -188,6 +203,7 @@ class MainActivity : AppCompatActivity(), OnRcyItemClickListener {
             currentItem = (currentItem + 1) % viewModel.strList.size
             if (currentItem == 0) {
                 viewPager.setCurrentItem(currentItem, false)
+                "重新开始当前分类的图片".showToast()
             } else {
                 viewPager.setCurrentItem(currentItem, true)
             }

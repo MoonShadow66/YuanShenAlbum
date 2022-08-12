@@ -58,4 +58,10 @@ class RcyAdapter(val context: Context, private val list: List<Role>) :
     }
 
     override fun getItemCount() = list.size
+
+
+    interface OnRcyItemClickListener {
+        fun onClick(role: Role, position: Int)
+    }
+
 }
