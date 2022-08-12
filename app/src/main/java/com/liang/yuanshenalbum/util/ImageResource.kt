@@ -67,20 +67,33 @@ object ImageResource {
     }
 
     // 根据分类得到分类图片
-    fun getImageUrlByName(name: String, isRandom: Boolean = false): List<String> {
+    fun getImageUrlByName(name: String, isRandom: Boolean = true): List<String> {
         // 根据分类名称得到分类数量
         val length = roleMap[name] ?: 0
+
         val list = ArrayList<String>()
+        // 获取 0 ~ length-1 的不重复随机索引
+        val index = random(length)
 
         for (i in 1..length) {
             if (isRandom) {
-                val random = (1..length).random()
-                list.add("$BASE_URL/${name}/${name}${random}.jpg")
+                val number = index[i - 1] // 因为index是从0开始取，所以index[i-1]
+                list.add("$BASE_URL/${name}/${name}${number}.jpg")
+//                LogUtil.d("ImageResource", "$BASE_URL/${name}/${name}${number}.jpg")
             } else {
                 list.add("$BASE_URL/${name}/${name}${i}.jpg")
             }
         }
+
         return list
+    }
+
+    // 返回一个Int类型的数组，其元素是1 ~ count的不重复的随机数
+    private fun random(count: Int): Array<Int> {
+        // 创建一个Int类型的数组，元素为1 ~ count
+        val tempArr = Array<Int>(count) { i -> i + 1 }
+        tempArr.sortBy { 0.5 - Math.random() }
+        return tempArr
     }
 
 

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), RcyAdapter.OnRcyItemClickListener {
     private lateinit var adapter: MyAdapter
     private lateinit var rcyAdapter: RcyAdapter
     private val handler = Handler()
-    private val delayMills = 3000L
+    private val delayMills = 2000L
     private var isOpen = false
     private var isRadioClick = false // 如果点击了自动滑动的单选按钮就是true
 
@@ -96,9 +96,11 @@ class MainActivity : AppCompatActivity(), RcyAdapter.OnRcyItemClickListener {
     private fun initObserver() {
         viewModel.imageLiveData.observe(this, { result ->
             val list = result.getOrNull()
+            LogUtil.d("MainActivity", list.toString())
             if (list != null) {
                 viewModel.strList.clear()
                 viewModel.strList.addAll(list)
+                LogUtil.d("MainActivity",list.toString())
                 adapter.notifyDataSetChanged()
             }
         })
